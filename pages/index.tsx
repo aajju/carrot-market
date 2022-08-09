@@ -4,17 +4,20 @@ const Home: NextPage = () => {
   return (
     <div>
       {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-        <div key={i}>
-          <div>
-            <div />
-            <div>
-              <h3>New iPhone 14</h3>
-              <span>Black</span>
-              <span>$95</span>
+        <div
+          className="flex justify-between px-4 py-5 border border-b-1 items-baseline"
+          key={i}
+        >
+          <div className="flex items-center space-x-2">
+            <div className="h-16 w-16 bg-gray-400" />
+            <div className="flex-col">
+              <h3 className=" font-semibold">New iPhone 14</h3>
+              <span className="flex text-gray-500 text-sm">Black</span>
+              <span className="flex font-bold">$95</span>
             </div>
           </div>
-          <div>
-            <div>
+          <div className="flex justify-between items-center space-x-2">
+            <div className="flex justify-between items-center space-x-1">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -31,7 +34,7 @@ const Home: NextPage = () => {
               </svg>
               <span>1</span>
             </div>
-            <div>
+            <div className="flex justify-between items-center space-x-1">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -51,9 +54,10 @@ const Home: NextPage = () => {
           </div>
         </div>
       ))}
-      <button>
+
+      <button className="fixed bottom-10 right-5 bg-orange-500 rounded-full p-2">
         <svg
-          className="h-6 w-6"
+          className="h-6 w-6 text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

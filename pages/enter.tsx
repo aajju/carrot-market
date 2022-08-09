@@ -1,50 +1,91 @@
+import type { NextPage } from "next";
 import { useState } from "react";
 
-export default function Enter() {
+function cls(...classnames: string[]) {
+  return classnames.join(" ");
+}
+
+const Enter: NextPage = () => {
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => setMethod("email");
   const onPhoneClick = () => setMethod("phone");
   return (
-    <div>
-      <h3>Enter to Carrot</h3>
+    <div className="flex-col px-4">
+      <h3 className="text-center text-2xl font-bold mt-10 mb-5">
+        Enter to Carrot
+      </h3>
       <div>
-        <div>
-          <h5>Enter using:</h5>
-          <div>
-            <button onClick={onEmailClick}>Email</button>
-            <button onClick={onPhoneClick}>Phone</button>
+        <div className="flex-col">
+          <h5 className="text-center mb-2">Enter using:</h5>
+          <div className="grid border-b w-full mt-8 grid-cols-2 ">
+            <button
+              className={cls(
+                "pb-4 font-medium text-sm border-b-2 pt-2 focus:outline-none",
+                method === "email"
+                  ? " border-orange-500 text-orange-400"
+                  : "border-transparent hover:text-gray-400 text-gray-500"
+              )}
+              onClick={onEmailClick}
+            >
+              Email
+            </button>
+            <button
+              className={cls(
+                "pb-4 font-medium text-sm border-b-2 pt-2   focus:outline-none",
+                method === "phone"
+                  ? " border-orange-500 text-orange-400"
+                  : "border-transparent hover:text-gray-400 text-gray-500"
+              )}
+              onClick={onPhoneClick}
+            >
+              Phone
+            </button>
           </div>
         </div>
-        <form>
-          <label>
+        <form className="mt-6">
+          <label htmlFor="input" className="text-gray-500 font-semibold">
             {method === "email" ? "Email address" : null}
             {method === "phone" ? "Phone number" : null}
           </label>
           <div>
-            {method === "email" ? <input type="email" required /> : null}
+            {method === "email" ? (
+              <input
+                id="input"
+                className="w-full rounded-lg appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                type="email"
+                required
+              />
+            ) : null}
             {method === "phone" ? (
-              <div>
-                <span>+82</span>
-                <input type="number" required />
+              <div className="w-full flex justify-start items-center">
+                <span className="bg-gray-300 flex p-2 text-gray-500 border border-gray-500 border-r-0 rounded-lg rounded-r-none ">
+                  +82
+                </span>
+                <input
+                  id="input"
+                  className="w-full rounded-lg rounded-l-none appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                  type="number"
+                  required
+                />
               </div>
             ) : null}
           </div>
-          <button>
+          <button className="bg-orange-500 text-white w-full py-1 mt-3 rounded-lg focus:outline-none">
             {method === "email" ? "Get login link" : null}
             {method === "phone" ? "Get one-time password" : null}
           </button>
         </form>
-        <div>
-          <div>
-            <div />
-            <div>
-              <span>Or enter with</span>
+        <div className="mt-10">
+          <div className="relative">
+            <div className="absolute border border-t-1 w-full" />
+            <div className="relative text-center -top-3">
+              <span className="bg-white p-4 text-gray-500">Or enter with</span>
             </div>
           </div>
-          <div>
-            <button>
+          <div className="grid w-full mt-5 grid-cols-2 gap-1">
+            <button className="flex justify-center items-center py-4 border border-gray-300 hover:bg-gray-100">
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 text-gray-500"
                 aria-hidden="true"
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -52,9 +93,9 @@ export default function Enter() {
                 <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
               </svg>
             </button>
-            <button>
+            <button className="flex justify-center items-center py-4 border border-gray-300 hover:bg-gray-100">
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 text-gray-500"
                 aria-hidden="true"
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -71,4 +112,6 @@ export default function Enter() {
       </div>
     </div>
   );
-}
+};
+
+export default Enter;

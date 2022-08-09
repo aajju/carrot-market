@@ -2,18 +2,21 @@ import type { NextPage } from "next";
 
 const Community: NextPage = () => {
   return (
-    <div>
-      <div>
-        <span>동네질문</span>
-        <span>
-          <span>Q.</span> What is the best mandu restaurant?
+    <div className="px-4 py-10">
+      <div className="border-b-2 flex-col space-y-2 ">
+        <span className="px-2 py-1 text-xs rounded-full bg-slate-200">
+          동네질문
         </span>
-        <div>
+        <span className="block">
+          <span className="text-orange-500">Q.</span> What is the best mandu
+          restaurant?
+        </span>
+        <div className="flex pb-2 border-b-[1px] justify-between items-center text-sm text-gray-500">
           <span>니꼬</span>
           <span>18시간 전</span>
         </div>
-        <div>
-          <span>
+        <div className="flex space-x-4 pb-3">
+          <span className="flex items-center space-x-1">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -30,7 +33,7 @@ const Community: NextPage = () => {
             </svg>
             <span>궁금해요 1</span>
           </span>
-          <span>
+          <span className="flex items-center space-x-1">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -49,9 +52,10 @@ const Community: NextPage = () => {
           </span>
         </div>
       </div>
-      <button>
+
+      <button className="fixed right-5 bottom-10 bg-orange-500 rounded-full p-3 ">
         <svg
-          className="w-6 h-6"
+          className="w-6 h-6  text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
