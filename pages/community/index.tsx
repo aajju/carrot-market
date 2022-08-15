@@ -1,22 +1,28 @@
 import type { NextPage } from "next";
+import Link from "next/link";
+import FloatingButton from "../../components/floating-btn";
 import Layout from "../../components/layout";
 
 const Community: NextPage = () => {
   return (
     <Layout title="동네생활" hasTabBar>
-      <div className="px-4 py-10">
+      <div className="px-4 py-10 flex-col space-y-6">
         <div className="border-b-2 flex-col space-y-2 ">
           <span className="px-2 py-1 text-xs rounded-full bg-slate-200">
             동네질문
           </span>
-          <span className="block">
-            <span className="text-orange-500">Q.</span> What is the best mandu
-            restaurant?
-          </span>
-          <div className="flex pb-2 border-b-[1px] justify-between items-center text-sm text-gray-500">
-            <span>니꼬</span>
-            <span>18시간 전</span>
-          </div>
+          <Link href="/community/1">
+            <a>
+              <span className="block">
+                <span className="text-orange-500">Q.</span> What is the best
+                mandu restaurant?
+              </span>
+              <div className="flex pb-2 border-b-[1px] justify-between items-center text-sm text-gray-500">
+                <span>니꼬</span>
+                <span>18시간 전</span>
+              </div>
+            </a>
+          </Link>
           <div className="flex space-x-4 pb-3">
             <span className="flex items-center space-x-1">
               <svg
@@ -55,7 +61,7 @@ const Community: NextPage = () => {
           </div>
         </div>
 
-        <button className="fixed right-5 bottom-10 bg-orange-500 rounded-full p-3 ">
+        <FloatingButton href="/community/write">
           <svg
             className="w-6 h-6  text-white"
             fill="none"
@@ -70,7 +76,7 @@ const Community: NextPage = () => {
               d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
             ></path>
           </svg>
-        </button>
+        </FloatingButton>
       </div>
     </Layout>
   );

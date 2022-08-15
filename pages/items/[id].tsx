@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Button from "../../components/button";
 import Layout from "../../components/layout";
 
 const ItemDetail: NextPage = () => {
@@ -28,9 +29,7 @@ const ItemDetail: NextPage = () => {
               the first motherfucker to get shot. You understand?
             </p>
             <div className="flex w-full justify-between items-center mt-5 mb-7 ">
-              <button className="bg-orange-500 text-white w-10/12 py-3 rounded-lg">
-                Talk to seller
-              </button>
+              <Button text="Talk to seller" />
               <button className="w-2/12 py-3 mx-auto ">
                 <svg
                   className="h-6 w-6 mx-auto "

@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import Button from "../components/button";
+import Input from "../components/input";
 import { cls } from "../libs/utils";
 
 const Enter: NextPage = () => {
@@ -40,37 +42,24 @@ const Enter: NextPage = () => {
           </div>
         </div>
         <form className="mt-6">
-          <label htmlFor="input" className="text-gray-500 font-semibold">
-            {method === "email" ? "Email address" : null}
-            {method === "phone" ? "Phone number" : null}
-          </label>
-          <div>
+          <div className="mb-8">
             {method === "email" ? (
-              <input
-                id="input"
-                className="w-full rounded-lg appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                type="email"
+              <Input name="email" label="Email address" type="email" required />
+            ) : null}
+            {method === "phone" ? (
+              <Input
+                name="phone"
+                label="Phone Number"
+                type="number"
+                kind="phone"
                 required
               />
             ) : null}
-            {method === "phone" ? (
-              <div className="w-full flex justify-start items-center">
-                <span className="bg-gray-300 flex p-2 text-gray-500 border border-gray-500 border-r-0 rounded-lg rounded-r-none ">
-                  +82
-                </span>
-                <input
-                  id="input"
-                  className="w-full rounded-lg rounded-l-none appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                  type="number"
-                  required
-                />
-              </div>
-            ) : null}
           </div>
-          <button className="bg-orange-500 text-white w-full py-1 mt-3 rounded-lg focus:outline-none">
-            {method === "email" ? "Get login link" : null}
-            {method === "phone" ? "Get one-time password" : null}
-          </button>
+          {method === "email" ? <Button text="Get login link" large /> : null}
+          {method === "phone" ? (
+            <Button text="Get one-time password" large />
+          ) : null}
         </form>
         <div className="mt-10">
           <div className="relative">
