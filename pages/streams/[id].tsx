@@ -18,8 +18,10 @@ const Stream: NextPage = () => {
           to get shot. You understand?
         </p>
       </div>
+
       <div>
         <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
+
         <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
           <div className="flex items-start space-x-2">
             <div className="w-8 h-8 rounded-full bg-slate-400" />
@@ -106,6 +108,7 @@ const Stream: NextPage = () => {
             </div>
           </div>
         </div>
+
         <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
           <div className="flex relative max-w-md items-center  w-full mx-auto">
             <input
