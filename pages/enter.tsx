@@ -1,13 +1,49 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import Button from "../components/button";
-import Input from "../components/input";
-import { cls } from "../libs/utils";
+import { useForm } from "react-hook-form";
+import Button from "@components/button";
+import Input from "@components/input";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
+
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
 
 const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+  // const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
+
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+
+  const onVaild = (data: EnterForm) => {
+    // setSubmitting(true);
+    // fetch("/api/users/enter", {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // }).then(() => {
+    //   setSubmitting(false);
+    // });
+    // console.log(data);
+    if (loading) return;
+    enter(data);
+  };
+
+  console.log({ loading, data, error });
+
   return (
     <div className="flex-col px-4">
       <h3 className="text-center text-2xl font-bold mt-10 mb-5">
@@ -41,13 +77,20 @@ const Enter: NextPage = () => {
             </button>
           </div>
         </div>
-        <form className="mt-6">
+        <form onSubmit={handleSubmit(onVaild)} className="mt-6">
           <div className="mb-8">
             {method === "email" ? (
-              <Input name="email" label="Email address" type="email" required />
+              <Input
+                register={register("email", { required: true })}
+                name="email"
+                label="Email address"
+                type="email"
+                required
+              />
             ) : null}
             {method === "phone" ? (
               <Input
+                register={register("phone", { required: true })}
                 name="phone"
                 label="Phone Number"
                 type="number"
@@ -56,9 +99,14 @@ const Enter: NextPage = () => {
               />
             ) : null}
           </div>
-          {method === "email" ? <Button text="Get login link" large /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "loading..." : "Get login link"} large />
+          ) : null}
           {method === "phone" ? (
-            <Button text="Get one-time password" large />
+            <Button
+              text={loading ? "loading..." : " Get one-time password"}
+              large
+            />
           ) : null}
         </form>
         <div className="mt-10">
