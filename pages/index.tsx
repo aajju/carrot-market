@@ -2,10 +2,18 @@ import type { NextPage } from "next";
 import FloatingButton from "@components/floating-btn";
 import Item from "@components/item";
 import Layout from "@components/layout";
+import useUser from "@libs/client/useUser";
+import Head from "next/head";
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
+
+  console.log({ user, isLoading });
+
   return (
     <Layout title="home" hasTabBar>
+      <Head>home</Head>
+      <div>{`user:${user.phone}, isloading:${isLoading}`}</div>
       <div className="flex flex-col space-y-5 divide-y">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Item
