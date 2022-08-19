@@ -1,8 +1,27 @@
 import type { NextPage } from "next";
 import Button from "@components/button";
 import Layout from "@components/layout";
+import useSWR from "swr";
+import { useRouter } from "next/router";
+import { Product, User } from ".prisma/client";
+
+interface ProductWithUser extends Product {
+  user: User;
+}
+
+interface ProductResponse {
+  ok: boolean;
+  product: ProductWithUser;
+  relatedProducts: Product[];
+}
 
 const ItemDetail: NextPage = () => {
+  const router = useRouter();
+
+  const { data, error } = useSWR<ProductResponse>(
+    router.query.id ? `/api/products/${router.query.id}` : null
+  );
+
   return (
     <Layout canGoBack>
       <div className="px-4 py-4">
@@ -11,23 +30,16 @@ const ItemDetail: NextPage = () => {
           <div className="flex mt-3 space-x-3 items-center mb-5">
             <div className="w-12 h-12 bg-slate-400 rounded-full" />
             <div className="flex-col space-y-1 justify-center ">
-              <p className="text-gray-800 text-sm font-semibold">Steve Jebs</p>
+              <p className="text-gray-800 text-sm font-semibold">
+                {data?.product?.user.name}
+              </p>
               <p className="text-xs text-gray-700">View profile &rarr;</p>
             </div>
           </div>
           <div className="flex-col">
-            <h1 className="text-3xl font-bold mb-2">Galaxy S50</h1>
-            <p className="text-3xl mb-3">$140</p>
-            <p>
-              My money&apos;s in that office, right? If she start giving me some
-              bullshit about it ain&apos;t there, and we got to go someplace
-              else and get it, I&apos;m gonna shoot you in the head then and
-              there. Then I&apos;m gonna shoot that bitch in the kneecaps, find
-              out where my goddamn money is. She gonna tell me too. Hey, look at
-              me when I&apos;m talking to you, motherfucker. You listen: we go
-              in there, and that ni**a Winston or anybody else is in there, you
-              the first motherfucker to get shot. You understand?
-            </p>
+            <h1 className="text-3xl font-bold mb-2">{data?.product.name}</h1>
+            <p className="text-3xl mb-3">${data?.product.price}</p>
+            <p>{data?.product.description}</p>
             <div className="flex w-full justify-between items-center mt-5 mb-7 ">
               <Button text="Talk to seller" />
               <button className="w-2/12 py-3 mx-auto ">
@@ -53,11 +65,11 @@ const ItemDetail: NextPage = () => {
         <div className="flex-col">
           <h2 className="font-bold text-xl mb-2">Similar items</h2>
           <div className="grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div className="flex-col" key={i}>
+            {data?.relatedProducts.map((product) => (
+              <div className="flex-col" key={product.id}>
                 <div className="w-full h-56 bg-slate-300 mb-2" />
-                <h3 className="text-gray-800">Galaxy S60</h3>
-                <p className="font-bold mb-4 ">$6</p>
+                <h3 className="text-gray-800">{product.name}</h3>
+                <p className="font-bold mb-4 ">${product.price}</p>
               </div>
             ))}
           </div>

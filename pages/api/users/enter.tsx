@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import smtpTransport from "@libs/server/email";
+import { withApiSession } from "@libs/server/withSession";
 
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
@@ -89,4 +90,6 @@ async function handler(
   return res.json({ ok: true });
 }
 
-export default withHandler({ method: "POST", handler, isPrivate: false });
+export default withApiSession(
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
+);
