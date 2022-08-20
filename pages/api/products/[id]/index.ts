@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
-import { ok } from "assert";
-import { toUnicode } from "punycode";
 
 // async function handler(
 //   req: NextApiRequest,
@@ -37,7 +35,11 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
+
   const product = await client.product.findUnique({
     where: {
       id: Number(id),
@@ -68,7 +70,20 @@ async function handler(
       },
     },
   });
-  res.json({ ok: true, product, relatedProducts });
+
+  const isLiked = Boolean(
+    await client.fav.findFirst({
+      where: {
+        productId: product?.id,
+        userId: user?.id,
+      },
+      select: {
+        id: true,
+      },
+    })
+  );
+
+  res.json({ ok: true, product, isLiked, relatedProducts });
 }
 
 export default withApiSession(
