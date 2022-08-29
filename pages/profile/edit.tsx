@@ -2,8 +2,65 @@ import type { NextPage } from "next";
 import Button from "@components/button";
 import Input from "@components/input";
 import Layout from "@components/layout";
+import useUser from "@libs/client/useUser";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import useMutation from "@libs/client/useMutation";
+
+interface EditProfileForm {
+  email?: string;
+  phone?: string;
+  name: string;
+  formErrors?: string;
+}
+
+interface EditProfileResponse {
+  ok: boolean;
+  error?: string;
+}
 
 const EditProfile: NextPage = () => {
+  const { user, isLoading } = useUser();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<EditProfileForm>();
+
+  const [editProfile, { loading, data }] =
+    useMutation<EditProfileResponse>("/api/users/me");
+
+  const router = useRouter();
+  const onValid = ({ name, email, phone }: EditProfileForm) => {
+    // console.log(editFormData);
+    if (loading) return;
+    if (name === "" || (email === "" && phone === "")) {
+      setError("formErrors", { message: "error!!!" });
+    }
+    editProfile({ name, email, phone });
+  };
+
+  useEffect(() => {
+    // if (!user) router.replace("/");
+    if (user?.name) setValue("name", user.name);
+    if (user?.email) {
+      setValue("email", user.email);
+    }
+    if (user?.phone) setValue("phone", user.phone);
+  }, [user, setValue]);
+
+  useEffect(() => {
+    if (data && !data.ok && data.error) {
+      setError("formErrors", { message: data.error });
+    }
+    if (data?.ok) {
+      router.replace("/profile");
+    }
+  }, [data, setError, router]);
+
   return (
     <Layout canGoBack title="프로필 수정">
       <div className="py-10 px-4 space-y-4 ">
@@ -22,43 +79,39 @@ const EditProfile: NextPage = () => {
             />
           </label>
         </div>
+        <form onSubmit={handleSubmit(onValid)}>
+          <Input
+            register={register("name")}
+            label="Name"
+            name="name"
+            kind="text"
+            type="text"
+            required
+          />
 
-        <Input
-          required
-          label="Email address"
-          name="email"
-          kind="text"
-          type="email"
-        />
-        {/* 
-        <div className="space-y-1">
-          <label htmlFor="phone" className="text-sm font-medium text-gray-700">
-            Phone number
-          </label>
-          <div className="flex rounded-md shadow-sm">
-            <span className="flex items-center justify-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 select-none text-sm">
-              +82
-            </span>
-            <input
-              id="input"
-              type="number"
-              className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md rounded-l-none shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-              required
-            />
+          <Input
+            register={register("email")}
+            label="Email address"
+            name="email"
+            kind="text"
+            type="email"
+            required={false}
+          />
+
+          <Input
+            register={register("phone")}
+            label="Phone number"
+            type="number"
+            name="phone"
+            kind="phone"
+            required={false}
+          />
+          {errors.formErrors ? errors.formErrors.message : null}
+
+          <div className="py-6">
+            <Button text="Update Profile" large />
           </div>
-        </div> */}
-
-        <Input
-          label="Phone number"
-          type="number"
-          name="phone"
-          kind="phone"
-          required
-        />
-
-        <div className="py-6">
-          <Button text="Update Profile" large />
-        </div>
+        </form>
       </div>
     </Layout>
   );

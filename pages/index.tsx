@@ -18,7 +18,7 @@ import { Product } from ".prisma/client";
 //   relatedProducts: Product[];
 // }
 
-interface ProductWithFavCount extends Product {
+export interface ProductWithFavCount extends Product {
   _count: { favs: number };
 }
 

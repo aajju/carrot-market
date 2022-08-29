@@ -1,3 +1,4 @@
+import { User } from ".prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -20,8 +21,13 @@ import useSWR from "swr";
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+interface ProfileResponse {
+  ok: Boolean;
+  profile: User;
+}
+
 export default function useUser() {
-  const { data, error } = useSWR("/api/users/me");
+  const { data, error } = useSWR<ProfileResponse>("/api/users/me");
   const router = useRouter();
   useEffect(() => {
     if (data && !data.ok) {
