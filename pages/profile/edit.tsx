@@ -109,7 +109,7 @@ const EditProfile: NextPage = () => {
           {errors.formErrors ? errors.formErrors.message : null}
 
           <div className="py-6">
-            <Button text="Update Profile" large />
+            <Button text={isLoading ? "Loading..." : "Update Profile"} large />
           </div>
         </form>
       </div>
