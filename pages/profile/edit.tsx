@@ -38,7 +38,7 @@ const EditProfile: NextPage = () => {
     // console.log(editFormData);
     if (loading) return;
     if (name === "" || (email === "" && phone === "")) {
-      setError("formErrors", { message: "error!!!" });
+      return setError("formErrors", { message: "error!!!" });
     }
     editProfile({ name, email, phone });
   };

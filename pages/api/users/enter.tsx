@@ -65,7 +65,7 @@ async function handler(
   }
 
   if (email) {
-    /* const mailOptions = {
+    const mailOptions = {
       from: process.env.MAIL_ID,
       to: email,
       subject: "Nomad Carrot Authentication Email",
@@ -84,7 +84,7 @@ async function handler(
       }
     );
     smtpTransport.close();
-    console.log(result); */
+    console.log(result, payload);
   }
 
   return res.json({ ok: true });

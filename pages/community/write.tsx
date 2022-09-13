@@ -13,7 +13,7 @@ interface WriteForm {
 }
 
 interface WriteMutationResponse {
-  ok: Boolean;
+  ok: boolean;
   post: Post;
 }
 

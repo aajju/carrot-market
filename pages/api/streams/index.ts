@@ -7,37 +7,17 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  if (req.method === "GET") {
-    const posts = await client.post.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-          },
-        },
-        _count: {
-          select: {
-            Wonderings: true,
-            answers: true,
-          },
-        },
-      },
-    });
-
-    res.json({ ok: true, posts });
-  }
-
   if (req.method === "POST") {
     const {
-      body: { question },
+      body: { name, price, description },
       session: { user },
     } = req;
 
-    const post = await client.post.create({
+    const stream = await client.stream.create({
       data: {
-        question,
+        name,
+        price,
+        description,
         user: {
           connect: {
             id: user?.id,
@@ -45,10 +25,15 @@ async function handler(
         },
       },
     });
-
     res.json({
       ok: true,
-      post,
+      stream,
+    });
+  } else if (req.method === "GET") {
+    const streams = await client.stream.findMany();
+    res.json({
+      ok: true,
+      streams,
     });
   }
 }
